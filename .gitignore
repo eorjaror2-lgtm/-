@@ -1,0 +1,18 @@
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs and databases
+*.log
+*.sqlite
+
+# IDEs
+.vscode/
+.idea/
+.cursor/
+
+# Temporary files
+/tmp/
+*.tmp
+*.temp
