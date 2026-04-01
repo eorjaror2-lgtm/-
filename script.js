@@ -68,10 +68,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     }
 
-    // 6. YouTube Gallery Video Switcher
+    // 6. Media Gallery - Tab & Video Switcher
     const mainIframe = document.getElementById('youtube-iframe');
     const thumbItems = document.querySelectorAll('.thumbnail-item');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
 
+    // Tab Switching
+    if (tabBtns.length > 0) {
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetTab = btn.getAttribute('data-tab');
+                
+                // Update buttons
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${targetTab}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+
+                // Pause YouTube if switching to blog
+                if (targetTab === 'blog' && mainIframe) {
+                    const currentSrc = mainIframe.src;
+                    mainIframe.src = currentSrc.replace('autoplay=1', 'autoplay=0');
+                }
+            });
+        });
+    }
+
+    // YouTube Video Switching
     if (mainIframe && thumbItems.length > 0) {
         thumbItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -86,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Scroll to main player on mobile
                 if (window.innerWidth <= 992) {
-                    const gallerySection = document.getElementById('youtube-gallery');
+                    const gallerySection = document.getElementById('media-gallery');
                     window.scrollTo({
                         top: gallerySection.offsetTop - 80,
                         behavior: 'smooth'
