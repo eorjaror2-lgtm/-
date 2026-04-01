@@ -67,4 +67,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, 2000);
     }
+
+    // 6. YouTube Gallery Video Switcher
+    const mainIframe = document.getElementById('youtube-iframe');
+    const thumbItems = document.querySelectorAll('.thumbnail-item');
+
+    if (mainIframe && thumbItems.length > 0) {
+        thumbItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const videoId = item.getAttribute('data-video-id');
+                
+                // Update iframe src
+                mainIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                
+                // Update active state
+                thumbItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Scroll to main player on mobile
+                if (window.innerWidth <= 992) {
+                    const gallerySection = document.getElementById('youtube-gallery');
+                    window.scrollTo({
+                        top: gallerySection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
 });
